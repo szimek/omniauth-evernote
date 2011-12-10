@@ -1,29 +1,14 @@
-# Omniauth::Evernote
+# Omniauth Evernote
 
-TODO: Write a gem description
-
-## Installation
-
-Add this line to your application's Gemfile:
-
-    gem 'omniauth-evernote'
-
-And then execute:
-
-    $ bundle
-
-Or install it yourself as:
-
-    $ gem install omniauth-evernote
+This is OmniAuth strategy for authenticating to Evernote.
 
 ## Usage
 
-TODO: Write usage instructions here
+By default the strategy uses `http://www.evernote.com` site. In development you'll want to use `https://sandbox.evernote.com` instead. To do it you'll
+need to pass `site` option:
 
-## Contributing
-
-1. Fork it
-2. Create your feature branch (`git checkout -b my-new-feature`)
-3. Commit your changes (`git commit -am 'Added some feature'`)
-4. Push to the branch (`git push origin my-new-feature`)
-5. Create new Pull Request
+```ruby
+use OmniAuth::Builder do
+ provider :evernote, ENV['EVERNOTE_KEY'], ENV['EVERNOTE_SECRET'], :client_options => { :site => 'https://sandbox.evernote.com' }
+end
+```
