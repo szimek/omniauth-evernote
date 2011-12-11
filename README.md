@@ -1,4 +1,5 @@
-# Omniauth Evernote
+# Omniauth Evernote [![Build Status](https://secure.travis-ci.org/szimek/omniauth-evernote.png)](http://travis-ci.org/szimek/omniauth-evernote)
+
 
 This is OmniAuth strategy for authenticating to Evernote.
 
