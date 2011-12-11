@@ -1,6 +1,13 @@
 require 'spec_helper'
 require 'ostruct'
 
+# Fix OpenStruct in Ruby 1.8
+if RUBY_VERSION <= "1.9"
+  class OpenStruct
+    undef id
+  end
+end
+
 describe OmniAuth::Strategies::Evernote do
   before do
     @consumer_key = 'key'
