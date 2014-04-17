@@ -12,7 +12,7 @@ module OmniAuth
         :authorize_path => '/OAuth.action'
       }
 
-      uid { raw_info.id }
+      uid { raw_info.id.to_s }
 
       info do
         {
