@@ -12,12 +12,12 @@ module OmniAuth
         :authorize_path => '/OAuth.action'
       }
 
-      uid { raw_info.id.to_s }
+      uid { raw_info['id'].to_s }
 
       info do
         {
-          'name' => raw_info.name,
-          'nickname' => raw_info.username,
+          'name' => raw_info['name'],
+          'nickname' => raw_info['username'],
         }
       end
 
@@ -32,7 +32,7 @@ module OmniAuth
             userStoreTransport = ::Thrift::HTTPClientTransport.new(userStoreUrl)
             userStoreProtocol = ::Thrift::BinaryProtocol.new(userStoreTransport)
             userStore = ::Evernote::EDAM::UserStore::UserStore::Client.new(userStoreProtocol)
-            userStore.getUser(access_token.token)
+            userStore.getUser(access_token.token).as_json
           end
       end
     end
