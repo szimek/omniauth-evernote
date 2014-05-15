@@ -32,7 +32,7 @@ module OmniAuth
             userStoreTransport = ::Thrift::HTTPClientTransport.new(userStoreUrl)
             userStoreProtocol = ::Thrift::BinaryProtocol.new(userStoreTransport)
             userStore = ::Evernote::EDAM::UserStore::UserStore::Client.new(userStoreProtocol)
-            userStore.getUser(access_token.token).as_json
+            userStore.getUser(access_token.token).as_json.stringify_keys!
           end
       end
     end
