@@ -40,7 +40,7 @@ describe OmniAuth::Strategies::Evernote do
   describe "#uid" do
     before do
       subject.stub(:raw_info) do
-        OpenStruct.new('id' => '123')
+        {'id' => '123'}
       end
     end
 
@@ -52,7 +52,7 @@ describe OmniAuth::Strategies::Evernote do
   describe "#info" do
     before :each do
       subject.stub(:raw_info) do
-        OpenStruct.new(:name => "Mike Rotch", :username => "mikerotch")
+        {'name' => "Mike Rotch", 'username' => "mikerotch"}
       end
     end
 
