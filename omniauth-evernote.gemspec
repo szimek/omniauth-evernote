@@ -2,8 +2,8 @@
 require File.expand_path('../lib/omniauth-evernote/version', __FILE__)
 
 Gem::Specification.new do |gem|
-  gem.authors       = ["Szymon Nowak"]
-  gem.email         = ["szimek@gmail.com"]
+  gem.authors       = ["Szymon Nowak", "Joel Van Horn"]
+  gem.email         = ["szimek@gmail.com", "joel@joelvanhorn.com"]
   gem.description   = %q{OmniAuth strategy for Evernote}
   gem.summary       = %q{OmniAuth strategy for Evernote}
   gem.homepage      = "https://github.com/szimek/omniauth-evernote"
