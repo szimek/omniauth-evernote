@@ -2,8 +2,8 @@
 require File.expand_path('../lib/omniauth-evernote/version', __FILE__)
 
 Gem::Specification.new do |gem|
-  gem.authors       = ["Szymon Nowak"]
-  gem.email         = ["szimek@gmail.com"]
+  gem.authors       = ["Szymon Nowak", "Joel Van Horn"]
+  gem.email         = ["szimek@gmail.com", "joel@joelvanhorn.com"]
   gem.description   = %q{OmniAuth strategy for Evernote}
   gem.summary       = %q{OmniAuth strategy for Evernote}
   gem.homepage      = "https://github.com/szimek/omniauth-evernote"
@@ -15,10 +15,10 @@ Gem::Specification.new do |gem|
   gem.require_paths = ["lib"]
   gem.version       = Omniauth::Evernote::VERSION
 
-  gem.add_runtime_dependency     'omniauth-oauth', '~> 1.0'
-  gem.add_runtime_dependency     'evernote-thrift'
-  gem.add_runtime_dependency     'multi_json', '~> 1.0'
+  gem.add_runtime_dependency 'omniauth-oauth', '~> 1.0'
+  gem.add_runtime_dependency 'evernote_oauth'
+  gem.add_runtime_dependency 'multi_json', '>= 1.0'
 
-  gem.add_development_dependency 'rspec', '~> 2.7'
+  gem.add_development_dependency 'rspec', '>= 2.7'
   gem.add_development_dependency 'rake'
 end

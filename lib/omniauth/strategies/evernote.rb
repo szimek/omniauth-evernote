@@ -1,5 +1,4 @@
 require 'omniauth/strategies/oauth'
-require 'evernote-thrift'
 
 module OmniAuth
   module Strategies
@@ -15,25 +14,76 @@ module OmniAuth
       uid { raw_info['id'].to_s }
 
       info do
-        {
-          'name' => raw_info['name'],
-          'nickname' => raw_info['username'],
+        info_hash = {
+          name:     raw_info['name'],
+          nickname: raw_info['username']
         }
+
+        if raw_info.accounting?
+          info_hash.merge!(
+            company: raw_info.accounting['businessName']
+          )
+        end
+
+        if user_profile
+          info_hash.merge!(
+            email: user_profile['email'],
+            image: user_profile['photoUrl'],
+            phone: user_profile['attributes']['mobilePhone'] || user_profile['attributes']['workPhone'],
+            location: user_profile['attributes']['location'],
+            urls: {
+              profile_url: user_profile['attributes']['linkedInProfileUrl']
+            }
+          )
+        end
+
+        prune!(info_hash)
       end
 
       extra do
-        { :raw_info => raw_info }
+        prune!(raw_info: raw_info, user_profile: user_profile)
       end
 
       def raw_info
-        @raw_info ||=
-          begin
-            userStoreUrl = consumer.site + '/edam/user'
-            userStoreTransport = ::Thrift::HTTPClientTransport.new(userStoreUrl)
-            userStoreProtocol = ::Thrift::BinaryProtocol.new(userStoreTransport)
-            userStore = ::Evernote::EDAM::UserStore::UserStore::Client.new(userStoreProtocol)
-            userStore.getUser(access_token.token).as_json.stringify_keys!
-          end
+        @raw_info ||= convert_to_hashie(evernote_client.getUser)
+      end
+
+      def business_member?
+        raw_info.accounting? && raw_info.accounting.businessId?
+      end
+
+      def business_token
+        return unless business_member?
+        @business_token ||= convert_to_hashie(evernote_client.authenticateToBusiness(access_token.token))
+      end
+
+      def user_profile
+        @user_profile ||= business_users.find{ |profile| profile.id == raw_info.id }
+      end
+
+      def business_users
+        return []
+
+        # TODO: Add these business-related endpoints to the Ruby SDK
+        
+        # return [] unless business_token
+        # @business_users ||= convert_to_hashie(evernote_client.listBusinessUsers(business_token.authenticationToken))
+      end
+
+      def evernote_client
+        require 'evernote_oauth'
+        @evernote_client ||= ::EvernoteOAuth::Client.new(token: access_token.token).user_store
+      end
+
+      def convert_to_hashie(object)
+        Hashie::Mash.new(MultiJson.load(MultiJson.dump(object)))
+      end
+
+      def prune!(hash)
+        hash.delete_if do |_, v|
+          prune!(v) if v.is_a?(Hash)
+          v.nil? || (v.respond_to?(:empty?) && v.empty?)
+        end
       end
     end
   end
