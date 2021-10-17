@@ -21,47 +21,43 @@ describe OmniAuth::Strategies::Evernote do
 
   describe '#consumer' do
     it 'has correct Evernote site' do
-      subject.consumer.options[:site].should eq('https://www.evernote.com')
+      expect(subject.consumer.options[:site]).to eq('https://www.evernote.com')
     end
 
     it 'has correct request token url' do
-      subject.consumer.options[:request_token_path].should eq('/oauth')
+      expect(subject.consumer.options[:request_token_path]).to eq('/oauth')
     end
 
     it 'has correct access token url' do
-      subject.consumer.options[:access_token_path].should eq('/oauth')
+      expect(subject.consumer.options[:access_token_path]).to eq('/oauth')
     end
 
     it 'has correct authorize url' do
-      subject.consumer.options[:authorize_path].should eq('/OAuth.action')
+      expect(subject.consumer.options[:authorize_path]).to eq('/OAuth.action')
     end
   end
 
   describe "#uid" do
     before do
-      subject.stub(:raw_info) do
-        {'id' => '123'}
-      end
+      allow(subject).to receive(:raw_info).and_return({'id' => '123'})
     end
 
     it 'returns the id from raw_info' do
-      subject.uid.should eq('123')
+      expect(subject.uid).to eq('123')
     end
   end
 
   describe "#info" do
     before :each do
-      subject.stub(:raw_info) do
-        {'name' => "Mike Rotch", 'username' => "mikerotch"}
-      end
+      allow(subject).to receive(:raw_info).and_return({'name' => "Mike Rotch", 'username' => "mikerotch"})
     end
 
     it 'returns the name from raw_info' do
-      subject.info['name'].should eq('Mike Rotch')
+      expect(subject.info['name']).to eq('Mike Rotch')
     end
 
     it 'returns the username from raw_info as nickname' do
-      subject.info['nickname'].should eq('mikerotch')
+      expect(subject.info['nickname']).to eq('mikerotch')
     end
   end
 

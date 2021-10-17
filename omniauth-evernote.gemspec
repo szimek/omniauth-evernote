@@ -19,6 +19,6 @@ Gem::Specification.new do |gem|
   gem.add_runtime_dependency     'evernote-thrift'
   gem.add_runtime_dependency     'multi_json', '~> 1.0'
 
-  gem.add_development_dependency 'rspec', '~> 2.7'
-  gem.add_development_dependency 'rake', '< 11.0'
+  gem.add_development_dependency 'rspec'
+  gem.add_development_dependency 'rake'
 end
