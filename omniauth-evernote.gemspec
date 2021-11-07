@@ -13,7 +13,7 @@ Gem::Specification.new do |gem|
   gem.test_files    = `git ls-files -- {test,spec,features}/*`.split("\n")
   gem.name          = "omniauth-evernote"
   gem.require_paths = ["lib"]
-  gem.version       = Omniauth::Evernote::VERSION
+  gem.version       = OmniAuth::Evernote::VERSION
 
   gem.add_runtime_dependency     'omniauth-oauth', '~> 1.0'
   gem.add_runtime_dependency     'evernote-thrift'
